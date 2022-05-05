@@ -4,25 +4,184 @@
     <title>JS Lab</title>
     <style>
         body {
-            margin: 0;
+            margin: 30;
             padding: 0;
             font-family: Arial, serif;
         }
 
         h1 {
+            background : orange;
+            text-align: center;
             color: #0B3954;
+            border-bottom: 4px solid;
+            border-top: 4px solid;
+            padding: 20px;
+            margin-top: 50px;
         }
 
-	.green {
-		color:green;
-	}
+
+        p {
+            font-size: 25px;
+            text-align: center;
+        }
+
+
+        #field {
+
+            width: 300px;
+            height: 130px;
+            background: blue;
+            margin: auto;
+        }
+
+
+        #start {
+            width: 15%;
+            height: 50px;
+            font-weight: bold;
+        }
+
+        .score {
+
+           width: 80%;
+           margin: auto;
+           padding: 50px;
+        }
 
     </style>
 </head>
 <body>
 <div id="app">
-    <h1 id="main-header">Moja aplikacja</h1>
-    <p>To będzie gra. A oto co muszę zrobić:</p>
+    <div style="text-align:center">
+    <h1 id="main-header">Test your reflexes</h1>
+    <p>The color of the blue box below will change several times.</p>
+    <p>Try to click it as soon as the color changes.</p>
+    <p>Press start button to begin.</p>
+</div>
+
+    <div style="text-align: center"> <div style="margin:30px">
+        <div class ="start_button"></div>
+        <button id="start" type="button">START</button>
+    </div>
+
+
+</div>
+
+<div>
+    <p id = "field"></p>
+</div>
+
+<div class="score">
+        <div style="display: flex; flex-direction: row; justify-content: space-around;
+                    border: 3px solid;">
+        <p>Reaction time:</p>
+        <p id="reaction_time_text">---</p>
+        <p>Worst time:</p>
+        <p id="worst_time_text">---</p>
+        <p>Average time:</p>
+        <p id="average_time_text">---</p>
+
+</div>
+
+
+
+<script>
+
+    let start = document.getElementById('start');
+    let field = document.getElementById('field');
+    let time_text1 = document.getElementById('best_time_text');
+
+    let gameStatus = {
+        STOP: 1,
+        START: 2,
+    }
+
+    let status = gameStatus.STOP;
+
+
+    function end_game() {
+        clearTimeout(timeout1);
+        start.innerHTML = "START";
+        field.style.background = "blue";
+        reaction_time_text.innerHTML = "---";
+        status = gameStatus.STOP;
+    }
+
+    function start_game() {
+
+        let changeTime = getRandomTime(1, 7);
+        let date1 = new Date();
+        status = gameStatus.START;
+
+        for ( let i=0; i<7; i++ ) {
+            timeout1_function(changeTime);
+            changeTime = getRandomTime(1, 7);
+        }
+
+
+        <!--field.style.background = generateRandomColor();>
+        <!--setTimeout(() => field.style.background = "green", changeTime);>
+        <!--field.style.background = setTimeout(() => generateRandomColor() , 1000);>
+    }
+
+    function timeout1_function(time) {
+        timeout1 = setTimeout ( function() {
+        field.style.background = generateRandomColor();
+        let date1 = new Date();
+        time_now = date1.getTime();
+
+        field.addEventListener('click', function() {
+            let date2 = new Date();
+            time_later = date2.getTime();
+            play_time = (time_later - time_now);
+            reaction_time_text.innerHTML = play_time + " ms";
+        });
+        }, time)
+    }
+
+    function getRandomTime(min, max) {
+        let result = Math.floor( Math.random() * Math.floor(max)) + min;
+        result = result * 1000;
+        return result;
+    }
+
+    function generateRandomColor() {
+        var randomColor = '#'+Math.floor(Math.random()*16777215).toString(16);
+        return randomColor;
+    }
+
+
+    start.addEventListener('click', function() {
+        if( status === gameStatus.START ) {
+            end_game();
+        } else {
+            start_game();
+            this.innerHTML = "STOP GAME";
+        }
+    });
+
+</script>
+</body>
+</html>
+
+<!--
+function removeBoringStuff() {
+document.querySelectorAll("#app .boring").forEach((e) => e.remove());
+
+}
+
+function readValues() {
+const isChecked = document.getElementById('myCheckbox').checked;
+if (isChecked) {
+const text = document.getElementById('myTextField').value;
+alert(text)
+}
+}
+>
+
+ <!-
+<div>
+
     <ol>
         <li class="boring">Nauczyć się HTML</li>
         <li class="boring">Nauczyć się CSS</li>
@@ -35,20 +194,4 @@
 <button type="button" onclick="readValues()">Odczytaj wartości</button>
 
 </div>
-<script>
-
-  	function removeBoringStuff() {
-	document.querySelectorAll("#app .boring").forEach((e) => e.remove());
-
-	}
-
-	function readValues() {
-	const isChecked = document.getElementById('myCheckbox').checked;
-	if (isChecked) {
-		const text = document.getElementById('myTextField').value;
-		alert(text)
-	}
-	}
-</script>
-</body>
-</html>
+    -->
